@@ -3,10 +3,8 @@ import { Text, View } from "react-native";
 
 export default function LanguageScreen() {
   return (
-    <View>
-      <Text style={{ fontSize: 24, fontWeight: "bold" }}>
-        This is the Language Screen
-      </Text>
+    <View className="mt-5">
+      <Text className="text-3xl font-bold">This is the Language Screen</Text>
     </View>
   );
 }
