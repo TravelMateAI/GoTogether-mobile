@@ -5,15 +5,12 @@ import { Platform } from "react-native";
 import { HapticTab } from "@/components/HapticTab";
 import { GradientIcon } from "@/components/ui/GradientIcon";
 import TabBarBackground from "@/components/ui/TabBarBackground";
-import { useColorScheme } from "@/hooks/useColorScheme";
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#6B5CFF',
+        tabBarActiveTintColor: "#6B5CFF",
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
@@ -30,7 +27,10 @@ export default function TabLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ focused }) => (
-            <GradientIcon name={focused ? "house.fill" : "house"} focused={focused} />
+            <GradientIcon
+              name={focused ? "house.fill" : "house"}
+              focused={focused}
+            />
           ),
         }}
       />
@@ -39,7 +39,10 @@ export default function TabLayout() {
         options={{
           title: "Planner",
           tabBarIcon: ({ focused }) => (
-            <GradientIcon name={focused ? "doc.plaintext" : "doc"} focused={focused} />
+            <GradientIcon
+              name={focused ? "doc.plaintext" : "doc"}
+              focused={focused}
+            />
           ),
         }}
       />
@@ -48,16 +51,10 @@ export default function TabLayout() {
         options={{
           title: "Transport",
           tabBarIcon: ({ focused }) => (
-            <GradientIcon name={focused ? "map.fill" : "map"} focused={focused} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="language"
-        options={{
-          title: "Language",
-          tabBarIcon: ({ focused }) => (
-            <GradientIcon name={focused ? "globe.fill" : "globe"} focused={focused} />
+            <GradientIcon
+              name={focused ? "map.fill" : "map"}
+              focused={focused}
+            />
           ),
         }}
       />
@@ -66,7 +63,10 @@ export default function TabLayout() {
         options={{
           title: "Emergency",
           tabBarIcon: ({ focused }) => (
-            <GradientIcon name={focused ? "triangle.fill" : "triangle"} focused={focused} />
+            <GradientIcon
+              name={focused ? "triangle.fill" : "triangle"}
+              focused={focused}
+            />
           ),
         }}
       />
@@ -75,7 +75,10 @@ export default function TabLayout() {
         options={{
           title: "Settings",
           tabBarIcon: ({ focused }) => (
-            <GradientIcon name={focused ? "gearshape.fill" : "gearshape"} focused={focused} />
+            <GradientIcon
+              name={focused ? "gearshape.fill" : "gearshape"}
+              focused={focused}
+            />
           ),
         }}
       />
