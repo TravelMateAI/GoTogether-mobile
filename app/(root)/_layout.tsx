@@ -30,7 +30,7 @@ export default function TabLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ focused }) => (
-            <GradientIcon name="house.fill" focused={focused} />
+            <GradientIcon name={focused ? "house.fill" : "house"} focused={focused} />
           ),
         }}
       />
@@ -39,7 +39,7 @@ export default function TabLayout() {
         options={{
           title: "Planner",
           tabBarIcon: ({ focused }) => (
-            <GradientIcon name="doc.plaintext" focused={focused} />
+            <GradientIcon name={focused ? "doc.plaintext" : "doc"} focused={focused} />
           ),
         }}
       />
@@ -48,7 +48,7 @@ export default function TabLayout() {
         options={{
           title: "Transport",
           tabBarIcon: ({ focused }) => (
-            <GradientIcon name="map.fill" focused={focused} />
+            <GradientIcon name={focused ? "map.fill" : "map"} focused={focused} />
           ),
         }}
       />
@@ -57,7 +57,7 @@ export default function TabLayout() {
         options={{
           title: "Language",
           tabBarIcon: ({ focused }) => (
-            <GradientIcon name="globe" focused={focused} />
+            <GradientIcon name={focused ? "globe.fill" : "globe"} focused={focused} />
           ),
         }}
       />
@@ -66,7 +66,7 @@ export default function TabLayout() {
         options={{
           title: "Emergency",
           tabBarIcon: ({ focused }) => (
-            <GradientIcon name="triangle.fill" focused={focused} />
+            <GradientIcon name={focused ? "triangle.fill" : "triangle"} focused={focused} />
           ),
         }}
       />
@@ -75,7 +75,7 @@ export default function TabLayout() {
         options={{
           title: "Settings",
           tabBarIcon: ({ focused }) => (
-            <GradientIcon name="gearshape.fill" focused={focused} />
+            <GradientIcon name={focused ? "gearshape.fill" : "gearshape"} focused={focused} />
           ),
         }}
       />
