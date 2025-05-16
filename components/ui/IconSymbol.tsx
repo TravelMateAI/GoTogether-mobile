@@ -1,41 +1,55 @@
-// Fallback for using MaterialIcons on Android and web.
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { SymbolWeight } from 'expo-symbols';
+import { OpaqueColorValue, StyleProp, TextStyle } from 'react-native';
 
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { SymbolWeight, SymbolViewProps } from 'expo-symbols';
-import { ComponentProps } from 'react';
-import { OpaqueColorValue, type StyleProp, type TextStyle } from 'react-native';
-
-type IconMapping = Record<SymbolViewProps['name'], ComponentProps<typeof MaterialIcons>['name']>;
-type IconSymbolName = keyof typeof MAPPING;
-
-/**
- * Add your SF Symbols to Material Icons mappings here.
- * - see Material Icons in the [Icons Directory](https://icons.expo.fyi).
- * - see SF Symbols in the [SF Symbols](https://developer.apple.com/sf-symbols/) app.
- */
+// Mapping SF Symbols to Ionicons equivalents
 const MAPPING = {
   'house.fill': 'home',
-  'paperplane.fill': 'send',
-  'chevron.left.forwardslash.chevron.right': 'code',
-  'chevron.right': 'chevron-right',
-} as IconMapping;
+  'house': 'home-outline',
+
+  'doc.plaintext': 'document-text',
+  'doc': 'document-text-outline',
+
+  'map.fill': 'map',
+  'map': 'map-outline',
+
+  'gearshape.fill': 'settings',
+  'gearshape': 'settings-outline',
+
+  'globe.fill': 'globe',
+  'globe': 'globe-outline',
+
+  'triangle.fill': 'warning',
+  'triangle': 'warning-outline',
+} as const;
+
+type IconSymbolName = keyof typeof MAPPING;
+type IoniconName = (typeof MAPPING)[IconSymbolName];
+
+interface IconSymbolProps {
+  name: IconSymbolName;
+  size?: number;
+  color: string | OpaqueColorValue;
+  style?: StyleProp<TextStyle>;
+  weight?: SymbolWeight;
+}
 
 /**
- * An icon component that uses native SF Symbols on iOS, and Material Icons on Android and web.
- * This ensures a consistent look across platforms, and optimal resource usage.
- * Icon `name`s are based on SF Symbols and require manual mapping to Material Icons.
+ * IconSymbol - Cross-platform icon component mapping SF Symbols to Ionicons.
+ * Uses Ionicons on all platforms for consistency.
  */
 export function IconSymbol({
   name,
   size = 24,
   color,
   style,
-}: {
-  name: IconSymbolName;
-  size?: number;
-  color: string | OpaqueColorValue;
-  style?: StyleProp<TextStyle>;
-  weight?: SymbolWeight;
-}) {
-  return <MaterialIcons color={color} size={size} name={MAPPING[name]} style={style} />;
+}: IconSymbolProps) {
+  const iconName = MAPPING[name];
+
+  if (!iconName) {
+    console.warn(`⚠️ Icon name "${name}" not found in Ionicon mapping.`);
+    return null;
+  }
+
+  return <Ionicons name={iconName as IoniconName} size={size} color={color} style={style} />;
 }
