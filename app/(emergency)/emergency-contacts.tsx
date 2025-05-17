@@ -1,7 +1,7 @@
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import { Colors } from "@/constants/Colors";
 import React, { useState } from "react";
-import { Alert, FlatList, Linking, Modal, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, useColorScheme, View } from "react-native";
+import { Alert, FlatList, Linking, Modal, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 interface Contact {
     name: string;
@@ -10,7 +10,7 @@ interface Contact {
 
 export default function EmergencyContactsScreen() {
 
-    const colorSchemeName = useColorScheme() ?? "light";
+    const colorSchemeName = "light";
     const colorScheme = Colors[colorSchemeName];
     const [contacts, setContacts] = useState<Contact[]>([
         { name: "Home", phone: "tel:111" },

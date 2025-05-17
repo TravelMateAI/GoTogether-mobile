@@ -1,6 +1,5 @@
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import { Colors } from "@/constants/Colors";
-import { useColorScheme } from "@/hooks/useColorScheme.web";
 import React from "react";
 import { Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
@@ -43,7 +42,7 @@ const embassyContacts = {
 };
 
 export default function EmbassyContactsScreen() {
-    const theme = Colors[useColorScheme() ?? "light"];
+    const theme = Colors["light"];
 
     const handleLink = (url: string) => {
         Linking.openURL(url);

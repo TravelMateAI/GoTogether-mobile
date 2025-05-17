@@ -7,7 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeLayout() {
     const scheme = useColorScheme();
-    const theme = Colors[scheme ?? "light"];
+    const theme = Colors["light"];
 
     return (
         <View

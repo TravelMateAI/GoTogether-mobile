@@ -5,7 +5,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import { Colors } from "@/constants/Colors";
-import { useColorScheme } from "@/hooks/useColorScheme.web";
 import { useRouter } from "expo-router";
 
 const emergencyContacts = [
@@ -31,7 +30,7 @@ const emergencyContacts = [
 
 
 export default function EmergencyScreen() {
-  const colorSchemeName = useColorScheme() ?? "light";
+  const colorSchemeName = "light";
   const colorScheme = Colors[colorSchemeName];
 
 
