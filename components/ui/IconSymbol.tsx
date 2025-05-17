@@ -21,12 +21,26 @@ const MAPPING = {
 
   'triangle.fill': 'warning',
   'triangle': 'warning-outline',
+
+  'people': 'people-outline',
+  'people.fill': 'people',
+
+  'cross.case': 'medkit-outline',
+  'cross.case.fill': 'medkit',
+
+  'phone': 'call-outline',
+  'phone.fill': 'call',
+
+  'envelope': 'mail-outline',
+  'envelope.fill': 'mail',
+
 } as const;
+
 
 type IconSymbolName = keyof typeof MAPPING;
 type IoniconName = (typeof MAPPING)[IconSymbolName];
 
-interface IconSymbolProps {
+export interface IconSymbolProps {
   name: IconSymbolName;
   size?: number;
   color: string | OpaqueColorValue;
