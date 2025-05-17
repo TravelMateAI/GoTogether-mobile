@@ -22,7 +22,7 @@ export default function HomeLayout() {
         <Stack.Screen name="events" options={{ title: "Local Events" }} />
         <Stack.Screen name="food" options={{ title: "Food & Fun" }} />
         <Stack.Screen name="language" options={{ title: "Language Help" }} />
-        <Stack.Screen name="locations" options={{ title: "Hidden Gems" }} />
+        <Stack.Screen name="hidden-gems" options={{ title: "Hidden Gems" }} />
         <Stack.Screen name="nearby" options={{ title: "Explore Nearby" }} />
         <Stack.Screen name="stay" options={{ title: "Book Stay" }} />
         <Stack.Screen name="top-picks" options={{ title: "Top Picks" }} />
