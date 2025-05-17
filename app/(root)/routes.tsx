@@ -1,8 +1,8 @@
 export const ROUTES = {
-  EVENTS: "/(home)/events",
+  CULTURE: "/(home)/culture",
   FOOD: "/(home)/food",
   LANGUAGE: "/(home)/language",
-  HIDDEN_GEMS: "/(home)/hidden-gems",
+  ENTERTAINMENT: "/(home)/entertainment",
   NEARBY: "/(home)/nearby",
   STAY: "/(home)/stay",
   TOP_PICKS: "/(home)/top-picks",

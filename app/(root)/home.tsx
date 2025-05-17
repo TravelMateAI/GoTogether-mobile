@@ -1,7 +1,10 @@
 import HorizontalScrollBar from "@/components/home/horizontal-scroll-bar";
+import { getHiddenLocations } from "@/services/location-service";
+import { LocationDetail } from "@/types/location-types";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import * as Location from "expo-location";
 import { useRouter } from "expo-router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   Text,
@@ -12,58 +15,131 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ROUTES } from "./routes";
 
-const cardButtons = [
-  {
-    title: "Explore Nearby",
-    route: "NEARBY",
-    color: "bg-green-500",
-    icon: "map",
-  },
-  { title: "Book Stay", route: "STAY", color: "bg-yellow-500", icon: "hotel" },
-  {
-    title: "Food & Fun",
-    route: "FOOD",
-    color: "bg-rose-500",
-    icon: "restaurant",
-  },
-  {
-    title: "Language Help",
-    route: "LANGUAGE",
-    color: "bg-sky-500",
-    icon: "language",
-  },
-];
-
-const scrollButtons = [
-  {
-    title: "Hidden Gems",
-    route: "HIDDEN_GEMS",
-    color: "bg-teal-500",
-    icon: "place",
-  },
-  {
-    title: "Local Events",
-    route: "EVENTS",
-    color: "bg-purple-500",
-    icon: "event",
-  },
-  {
-    title: "Top Picks",
-    route: "TOP_PICKS",
-    color: "bg-orange-500",
-    icon: "star",
-  },
-];
-
-// 🆕 Mock cards for Hidden Gems and Local Events
-const cardData = [
-  { title: "Secret Beach", color: "bg-indigo-300" },
-  { title: "Grand Palace", color: "bg-orange-300" },
-  { title: "Hidden Waterfall", color: "bg-green-300" },
-  { title: "Night Market", color: "bg-pink-300" },
-];
-
 export default function HomeScreen() {
+  const getCurrentLatLng = async () => {
+    const { coords } = await Location.getCurrentPositionAsync({});
+    return {
+      lat: coords.latitude,
+      lng: coords.longitude,
+    };
+  };
+
+  const [topPicks, setTopPicks] = useState<LocationDetail[]>([]);
+  const [entertainment, setEntertainment] = useState<LocationDetail[]>([]);
+  const [culture, setCulture] = useState<LocationDetail[]>([]);
+
+  useEffect(() => {
+    const fetchTopPicks = async () => {
+      try {
+        const { lat, lng } = await getCurrentLatLng();
+
+        const response = await getHiddenLocations(
+          `${lat},${lng}`,
+          5000,
+          ["restaurant"],
+          ""
+        );
+        setTopPicks(response.slice(0, 10));
+        console.log("Top Picks:", response);
+      } catch (error) {
+        console.error("Error fetching top picks:", error);
+      }
+    };
+    fetchTopPicks();
+  }, []);
+
+  useEffect(() => {
+    const fetchEntertainment = async () => {
+      try {
+        const { lat, lng } = await getCurrentLatLng();
+
+        const response = await getHiddenLocations(
+          `${lat},${lng}`,
+          10000,
+          ["cinema", "nightclub", "theatre"],
+          ""
+        );
+        setEntertainment(response.slice(0, 10));
+        console.log("Entertainment:", response);
+      } catch (error) {
+        console.error("Error fetching entertainment:", error);
+      }
+    };
+    fetchEntertainment();
+  }, []);
+
+  useEffect(() => {
+    const fetchCulture = async () => {
+      try {
+        const { lat, lng } = await getCurrentLatLng();
+
+        const response = await getHiddenLocations(
+          `${lat},${lng}`,
+          20000,
+          [
+            "arts_centre",
+            "community_centre",
+            "events_venue",
+            "fountain",
+            "stage",
+            "social_centre",
+          ],
+          ""
+        );
+        setCulture(response.slice(0, 10));
+        console.log("Culture:", response);
+      } catch (error) {
+        console.error("Error fetching culture:", error);
+      }
+    };
+    fetchCulture();
+  }, []);
+
+  const cardButtons = [
+    {
+      title: "Explore Nearby",
+      route: "NEARBY",
+      color: "bg-green-500",
+      icon: "map",
+    },
+    {
+      title: "Book Stay",
+      route: "STAY",
+      color: "bg-yellow-500",
+      icon: "hotel",
+    },
+    {
+      title: "Food & Fun",
+      route: "FOOD",
+      color: "bg-rose-500",
+      icon: "restaurant",
+    },
+    {
+      title: "Language Help",
+      route: "LANGUAGE",
+      color: "bg-sky-500",
+      icon: "language",
+    },
+  ];
+
+  const scrollButtons = [
+    {
+      title: "Top Picks",
+      route: "TOP_PICKS",
+      data: topPicks,
+    },
+    {
+      title: "Entertainment",
+      route: "ENTERTAINMENT",
+      data: entertainment,
+    },
+    {
+      title: "Culture",
+      route: "CULTURE",
+      data: culture,
+    },
+  ];
+
   const router = useRouter();
 
   const handleNavigation = (routeKey: keyof typeof ROUTES) => {
@@ -116,7 +192,7 @@ export default function HomeScreen() {
           <HorizontalScrollBar
             title={btn.title}
             key={index}
-            cardData={cardData}
+            cardData={btn.data}
             scrollButton={btn}
             handleNavigation={(route) =>
               handleNavigation(route as keyof typeof ROUTES)

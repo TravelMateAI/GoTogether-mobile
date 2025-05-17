@@ -1,10 +1,10 @@
 import React from "react";
 import { Text, View } from "react-native";
 
-export default function HiddenGemsScreen() {
+export default function EventsScreen() {
   return (
     <View className="mt-5">
-      <Text className="text-3xl font-bold">This is the Hidden Gems Screen</Text>
+      <Text className="text-3xl font-bold">This is the Culture Screen</Text>
     </View>
   );
 }

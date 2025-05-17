@@ -19,7 +19,7 @@ export const getHiddenLocations = async (
           )
           .join("\n")}
       );
-      out body 10;
+      out body 20;
     `;
 
     const response = await fetch("https://overpass-api.de/api/interpreter", {
@@ -59,12 +59,3 @@ export const getHiddenLocations = async (
     throw error;
   }
 };
-
-// Service method to fetch hidden location data (mocked for now)
-// export const getHiddenLocations = () => {
-//   return [
-//     { title: "Secret Beach", color: "bg-indigo-300" },
-//     { title: "Grand Palace", color: "bg-orange-300" },
-//     { title: "Hidden Waterfall", color: "bg-green-300" },
-//   ];
-// };
