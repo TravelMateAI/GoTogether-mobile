@@ -22,14 +22,15 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === "light" ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={colorScheme === "light" ? DefaultTheme : DarkTheme}>
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(root)" options={{ headerShown: false }} />
+        <Stack.Screen name="(emergency)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
-      <StatusBar style="dark" />
+      <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
     </ThemeProvider>
   );
 }
