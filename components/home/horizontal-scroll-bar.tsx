@@ -1,14 +1,16 @@
 import { LocationDetail } from "@/types/location-types";
 import React from "react";
-import { FlatList, Text, TouchableOpacity, View } from "react-native";
-
-interface CardItem {
-  title: string;
-  color: string;
-}
+import {
+  ActivityIndicator,
+  FlatList,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 interface ScrollButton {
   route: string;
+  loading: boolean;
 }
 
 interface HorizontalScrollBarProps {
@@ -32,21 +34,25 @@ const HorizontalScrollBar: React.FC<HorizontalScrollBarProps> = ({
           <Text className="text-indigo-600">See all</Text>
         </TouchableOpacity>
       </View>
-      <FlatList
-        data={cardData}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={(item) =>
-          `${item.name}-${item.location.lat}-${item.location.lng}`
-        }
-        renderItem={({ item }) => (
-          <View
-            className={`w-40 h-24 mr-4 rounded-2xl justify-center items-center bg-purple-300`}
-          >
-            <Text className="text-white font-semibold">{item.name}</Text>
-          </View>
-        )}
-      />
+      {scrollButton.loading ? (
+        <ActivityIndicator size="large" color="#6366F1" className="my-4" />
+      ) : (
+        <FlatList
+          data={cardData}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(item) =>
+            `${item.name}-${item.location.lat}-${item.location.lng}`
+          }
+          renderItem={({ item }) => (
+            <View
+              className={`w-40 h-24 mr-4 rounded-2xl justify-center items-center bg-purple-300`}
+            >
+              <Text className="text-white font-semibold">{item.name}</Text>
+            </View>
+          )}
+        />
+      )}
     </View>
   );
 };

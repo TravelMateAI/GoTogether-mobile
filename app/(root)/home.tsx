@@ -28,6 +28,10 @@ export default function HomeScreen() {
   const [entertainment, setEntertainment] = useState<LocationDetail[]>([]);
   const [culture, setCulture] = useState<LocationDetail[]>([]);
 
+  const [loadingTopPicks, setLoadingTopPicks] = useState(true);
+  const [loadingEntertainment, setLoadingEntertainment] = useState(true);
+  const [loadingCulture, setLoadingCulture] = useState(true);
+
   useEffect(() => {
     const fetchTopPicks = async () => {
       try {
@@ -40,9 +44,10 @@ export default function HomeScreen() {
           ""
         );
         setTopPicks(response.slice(0, 10));
-        console.log("Top Picks:", response);
       } catch (error) {
         console.error("Error fetching top picks:", error);
+      } finally {
+        setLoadingTopPicks(false);
       }
     };
     fetchTopPicks();
@@ -60,9 +65,10 @@ export default function HomeScreen() {
           ""
         );
         setEntertainment(response.slice(0, 10));
-        console.log("Entertainment:", response);
       } catch (error) {
         console.error("Error fetching entertainment:", error);
+      } finally {
+        setLoadingEntertainment(false);
       }
     };
     fetchEntertainment();
@@ -87,9 +93,10 @@ export default function HomeScreen() {
           ""
         );
         setCulture(response.slice(0, 10));
-        console.log("Culture:", response);
       } catch (error) {
         console.error("Error fetching culture:", error);
+      } finally {
+        setLoadingCulture(false);
       }
     };
     fetchCulture();
@@ -127,16 +134,19 @@ export default function HomeScreen() {
       title: "Top Picks",
       route: "TOP_PICKS",
       data: topPicks,
+      loading: loadingTopPicks,
     },
     {
       title: "Entertainment",
       route: "ENTERTAINMENT",
       data: entertainment,
+      loading: loadingEntertainment,
     },
     {
       title: "Culture",
       route: "CULTURE",
       data: culture,
+      loading: loadingCulture,
     },
   ];
 
@@ -150,20 +160,20 @@ export default function HomeScreen() {
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView className="px-5">
         {/* 🆕 Greeting section */}
-        <View className="flex-row justify-between items-center mt-2 mb-4">
+        <View className="flex-row justify-between items-center mt-4 mb-4">
           <View>
-            <Text className="text-xl font-bold text-indigo-700">
-              Hello, Alex!
+            <Text className="text-2xl font-bold text-indigo-700">
+              Hello, Lishan!
             </Text>
             <Text className="text-gray-500">Where are you headed today?</Text>
           </View>
           <View className="bg-indigo-500 w-10 h-10 rounded-full justify-center items-center">
-            <Text className="text-white font-bold">A</Text>
+            <Text className="text-white font-bold">L</Text>
           </View>
         </View>
 
         {/* 🆕 Search Bar */}
-        <View className="flex-row items-center bg-gray-100 rounded-xl px-4 py-2 mb-6">
+        <View className="flex-row items-center bg-gray-100 rounded-xl px-4 py-2 mb-4 mt-4">
           <Ionicons name="search" size={20} color="gray" />
           <TextInput
             placeholder="Search destinations, activities..."
@@ -173,32 +183,34 @@ export default function HomeScreen() {
         </View>
 
         {/* 🆕 Feature Buttons Grid */}
-        <View className="flex-row flex-wrap justify-between mb-6">
+        <View className="flex-row flex-wrap justify-between mt-5 mb-4">
           {cardButtons.map((btn, index) => (
             <TouchableOpacity
               key={index}
-              className={`w-[30%] aspect-square ${btn.color} rounded-2xl justify-center items-center mb-4`}
+              className={`w-[45%] h-32 ${btn.color} rounded-2xl justify-center items-center mb-4`}
               onPress={() => handleNavigation(btn.route as keyof typeof ROUTES)}
             >
-              <MaterialIcons name={btn.icon as any} size={24} color="white" />
-              <Text className="text-white text-sm font-semibold text-center mt-2">
+              <MaterialIcons name={btn.icon as any} size={28} color="white" />
+              <Text className="text-white text-base font-semibold text-center mt-2">
                 {btn.title}
               </Text>
             </TouchableOpacity>
           ))}
         </View>
 
-        {scrollButtons.map((btn, index) => (
-          <HorizontalScrollBar
-            title={btn.title}
-            key={index}
-            cardData={btn.data}
-            scrollButton={btn}
-            handleNavigation={(route) =>
-              handleNavigation(route as keyof typeof ROUTES)
-            }
-          />
-        ))}
+        <View>
+          {scrollButtons.map((btn, index) => (
+            <HorizontalScrollBar
+              title={btn.title}
+              key={index}
+              cardData={btn.data}
+              scrollButton={btn}
+              handleNavigation={(route) =>
+                handleNavigation(route as keyof typeof ROUTES)
+              }
+            />
+          ))}
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
