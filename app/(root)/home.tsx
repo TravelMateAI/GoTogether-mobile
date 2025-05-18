@@ -6,6 +6,7 @@ import * as Location from "expo-location";
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
+  Linking,
   ScrollView,
   Text,
   TextInput,
@@ -109,6 +110,13 @@ export default function HomeScreen() {
       color: "bg-green-500",
       icon: "map",
       emoji: "🧭",
+      onClick: () => {
+        const query = "things to do";
+        const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+          query
+        )}`;
+        Linking.openURL(url);
+      },
     },
     {
       title: "Book Stay",
@@ -116,6 +124,10 @@ export default function HomeScreen() {
       color: "bg-sky-500",
       icon: "hotel",
       emoji: "🏨",
+      onClick: () => {
+        const url = "https://www.booking.com";
+        Linking.openURL(url);
+      },
     },
     {
       title: "Food & Fun",
@@ -123,6 +135,13 @@ export default function HomeScreen() {
       color: "bg-rose-500",
       icon: "restaurant",
       emoji: "🍽",
+      onClick: () => {
+        const query = "restaurants";
+        const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+          query
+        )}`;
+        Linking.openURL(url);
+      },
     },
     {
       title: "Language Help",
@@ -130,6 +149,7 @@ export default function HomeScreen() {
       color: "bg-yellow-500",
       icon: "language",
       emoji: "🉐",
+      onClick: () => handleNavigation("LANGUAGE" as keyof typeof ROUTES),
     },
   ];
 
@@ -234,7 +254,7 @@ export default function HomeScreen() {
             <TouchableOpacity
               key={index}
               className={`w-[47%] h-28 ${btn.color} rounded-2xl justify-center items-center mb-5`}
-              onPress={() => handleNavigation(btn.route as keyof typeof ROUTES)}
+              onPress={btn.onClick}
             >
               {/* <MaterialIcons name={btn.icon as any} size={28} color="white" /> */}
               <Text className="text-3xl">{btn.emoji}</Text>
