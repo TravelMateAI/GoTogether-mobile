@@ -1,11 +1,12 @@
 import HorizontalScrollBar from "@/components/home/horizontal-scroll-bar";
 import { getHiddenLocations } from "@/services/location-service";
 import { LocationDetail } from "@/types/location-types";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import * as Location from "expo-location";
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
+  Linking,
   ScrollView,
   Text,
   TextInput,
@@ -108,25 +109,87 @@ export default function HomeScreen() {
       route: "NEARBY",
       color: "bg-green-500",
       icon: "map",
+      emoji: "🧭",
+      onClick: () => {
+        const query = "things to do";
+        const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+          query
+        )}`;
+        Linking.openURL(url);
+      },
     },
     {
       title: "Book Stay",
       route: "STAY",
-      color: "bg-yellow-500",
+      color: "bg-sky-500",
       icon: "hotel",
+      emoji: "🏨",
+      onClick: () => {
+        const url = "https://www.booking.com";
+        Linking.openURL(url);
+      },
     },
     {
       title: "Food & Fun",
       route: "FOOD",
       color: "bg-rose-500",
       icon: "restaurant",
+      emoji: "🍽",
+      onClick: () => {
+        const query = "restaurants";
+        const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+          query
+        )}`;
+        Linking.openURL(url);
+      },
     },
     {
       title: "Language Help",
       route: "LANGUAGE",
-      color: "bg-sky-500",
+      color: "bg-yellow-500",
       icon: "language",
+      emoji: "🉐",
+      onClick: () => handleNavigation("LANGUAGE" as keyof typeof ROUTES),
     },
+  ];
+
+  const topPicksImages = [
+    require("@/assets/images/top-picks/img1.jpg"),
+    require("@/assets/images/top-picks/img2.jpg"),
+    require("@/assets/images/top-picks/img3.jpg"),
+    require("@/assets/images/top-picks/img4.jpg"),
+    require("@/assets/images/top-picks/img5.jpg"),
+    require("@/assets/images/top-picks/img6.jpg"),
+    require("@/assets/images/top-picks/img7.jpg"),
+    require("@/assets/images/top-picks/img8.jpg"),
+    require("@/assets/images/top-picks/img9.jpg"),
+    require("@/assets/images/top-picks/img10.jpg"),
+  ];
+
+  const entertainmentImages = [
+    require("@/assets/images/entertainment/img1.jpg"),
+    require("@/assets/images/entertainment/img2.jpg"),
+    require("@/assets/images/entertainment/img3.jpg"),
+    require("@/assets/images/entertainment/img4.jpg"),
+    require("@/assets/images/entertainment/img5.jpg"),
+    require("@/assets/images/entertainment/img6.jpg"),
+    require("@/assets/images/entertainment/img7.jpg"),
+    require("@/assets/images/entertainment/img8.jpg"),
+    require("@/assets/images/entertainment/img9.jpg"),
+    require("@/assets/images/entertainment/img10.jpg"),
+  ];
+
+  const cultureImages = [
+    require("@/assets/images/culture/img1.jpg"),
+    require("@/assets/images/culture/img2.jpg"),
+    require("@/assets/images/culture/img3.jpg"),
+    require("@/assets/images/culture/img4.jpg"),
+    require("@/assets/images/culture/img5.jpg"),
+    require("@/assets/images/culture/img6.jpg"),
+    require("@/assets/images/culture/img7.jpg"),
+    require("@/assets/images/culture/img8.jpg"),
+    require("@/assets/images/culture/img9.jpg"),
+    require("@/assets/images/culture/img10.jpg"),
   ];
 
   const scrollButtons = [
@@ -135,18 +198,21 @@ export default function HomeScreen() {
       route: "TOP_PICKS",
       data: topPicks,
       loading: loadingTopPicks,
+      images: topPicksImages,
     },
     {
       title: "Entertainment",
       route: "ENTERTAINMENT",
       data: entertainment,
       loading: loadingEntertainment,
+      images: entertainmentImages,
     },
     {
       title: "Culture",
       route: "CULTURE",
       data: culture,
       loading: loadingCulture,
+      images: cultureImages,
     },
   ];
 
@@ -183,14 +249,15 @@ export default function HomeScreen() {
         </View>
 
         {/* 🆕 Feature Buttons Grid */}
-        <View className="flex-row flex-wrap justify-between mt-5 mb-4">
+        <View className="flex-row flex-wrap justify-between mt-5 mb-4 px-5">
           {cardButtons.map((btn, index) => (
             <TouchableOpacity
               key={index}
-              className={`w-[45%] h-32 ${btn.color} rounded-2xl justify-center items-center mb-4`}
-              onPress={() => handleNavigation(btn.route as keyof typeof ROUTES)}
+              className={`w-[47%] h-28 ${btn.color} rounded-2xl justify-center items-center mb-5`}
+              onPress={btn.onClick}
             >
-              <MaterialIcons name={btn.icon as any} size={28} color="white" />
+              {/* <MaterialIcons name={btn.icon as any} size={28} color="white" /> */}
+              <Text className="text-3xl">{btn.emoji}</Text>
               <Text className="text-white text-base font-semibold text-center mt-2">
                 {btn.title}
               </Text>
@@ -208,6 +275,7 @@ export default function HomeScreen() {
               handleNavigation={(route) =>
                 handleNavigation(route as keyof typeof ROUTES)
               }
+              images={btn.images}
             />
           ))}
         </View>
