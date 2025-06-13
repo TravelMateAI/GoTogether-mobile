@@ -228,7 +228,7 @@ export default function HomeScreen() {
         {/* 🆕 Greeting section */}
         <View className="flex-row justify-between items-center mt-4 mb-4">
           <View>
-            <Text className="text-3xl font-bold text-indigo-700">
+            <Text className="text-2xl font-bold text-indigo-700">
               Hello, Lishan!
             </Text>
             <Text className="text-gray-500">Where are you headed today?</Text>
