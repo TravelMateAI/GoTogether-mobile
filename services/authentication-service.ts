@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "@/config";
+import { BASE_URL_SM } from "@/config";
 
 export interface LoginRequest {
   username: string;
@@ -30,7 +30,7 @@ export interface LoginResponse {
 class AuthService {
   async login(loginData: LoginRequest): Promise<{ user: User; token: string }> {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/users/auth/login`, {
+      const response = await fetch(`${BASE_URL_SM}/api/users/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +80,7 @@ class AuthService {
 
   async register(registerData: RegisterRequest): Promise<User> {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/users/register`, {
+      const response = await fetch(`${BASE_URL_SM}/api/users/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -104,7 +104,7 @@ class AuthService {
   async getUserByEmail(email: string, token: string): Promise<User> {
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/users/email/${encodeURIComponent(email)}`,
+        `${BASE_URL_SM}/api/users/email/${encodeURIComponent(email)}`,
         {
           method: "GET",
           headers: {
@@ -128,7 +128,7 @@ class AuthService {
 
   async getUserById(userId: string, token: string): Promise<User> {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/users/${userId}`, {
+      const response = await fetch(`${BASE_URL_SM}/api/users/${userId}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

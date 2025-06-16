@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "@/config";
+import { BASE_URL_SM } from "@/config";
 import { Link, useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -71,7 +71,7 @@ export default function SignupScreen() {
 
     setLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/users/register`, {
+      const response = await fetch(`${BASE_URL_SM}/api/users/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

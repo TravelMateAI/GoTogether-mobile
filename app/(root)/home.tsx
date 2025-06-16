@@ -1,4 +1,5 @@
 import HorizontalScrollBar from "@/components/home/horizontal-scroll-bar";
+import { BASE_URL_API } from "@/config";
 import { getHiddenLocations } from "@/services/location-service";
 import { LocationDetail } from "@/types/location-types";
 import { Ionicons } from "@expo/vector-icons";
@@ -40,9 +41,9 @@ export default function HomeScreen() {
 
         const response = await getHiddenLocations(
           `${lat},${lng}`,
-          5000,
+          50000,
           ["restaurant"],
-          ""
+          BASE_URL_API
         );
         setTopPicks(response.slice(0, 10));
       } catch (error) {
@@ -61,9 +62,9 @@ export default function HomeScreen() {
 
         const response = await getHiddenLocations(
           `${lat},${lng}`,
-          10000,
-          ["cinema", "nightclub", "theatre"],
-          ""
+          100000,
+          ["cinema"],
+          BASE_URL_API
         );
         setEntertainment(response.slice(0, 10));
       } catch (error) {
@@ -83,15 +84,8 @@ export default function HomeScreen() {
         const response = await getHiddenLocations(
           `${lat},${lng}`,
           20000,
-          [
-            "arts_centre",
-            "community_centre",
-            "events_venue",
-            "fountain",
-            "stage",
-            "social_centre",
-          ],
-          ""
+          ["museum"],
+          BASE_URL_API
         );
         setCulture(response.slice(0, 10));
       } catch (error) {
@@ -153,6 +147,7 @@ export default function HomeScreen() {
     },
   ];
 
+  // Fallback images in case API doesn't provide photos
   const topPicksImages = [
     require("@/assets/images/top-picks/img1.jpg"),
     require("@/assets/images/top-picks/img2.jpg"),
@@ -225,7 +220,7 @@ export default function HomeScreen() {
   return (
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView className="px-5">
-        {/* 🆕 Greeting section */}
+        {/* Greeting section */}
         <View className="flex-row justify-between items-center mt-4 mb-4">
           <View>
             <Text className="text-2xl font-bold text-indigo-700">
@@ -238,7 +233,7 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        {/* 🆕 Search Bar */}
+        {/* Search Bar */}
         <View className="flex-row items-center bg-gray-100 rounded-xl px-4 py-2 mb-4 mt-4">
           <Ionicons name="search" size={20} color="gray" />
           <TextInput
@@ -248,7 +243,7 @@ export default function HomeScreen() {
           <Ionicons name="mic" size={20} color="gray" />
         </View>
 
-        {/* 🆕 Feature Buttons Grid */}
+        {/* Feature Buttons Grid */}
         <View className="flex-row flex-wrap justify-between mt-5 mb-4 px-5">
           {cardButtons.map((btn, index) => (
             <TouchableOpacity
@@ -256,7 +251,6 @@ export default function HomeScreen() {
               className={`w-[47%] h-28 ${btn.color} rounded-2xl justify-center items-center mb-5`}
               onPress={btn.onClick}
             >
-              {/* <MaterialIcons name={btn.icon as any} size={28} color="white" /> */}
               <Text className="text-3xl">{btn.emoji}</Text>
               <Text className="text-white text-base font-semibold text-center mt-2">
                 {btn.title}
