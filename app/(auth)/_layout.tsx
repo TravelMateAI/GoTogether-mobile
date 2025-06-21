@@ -1,11 +1,15 @@
 import { Stack } from "expo-router";
+import { UserProvider } from "./user-context";
 
-const Layout = () => {
+const AuthLayout = () => {
   return (
-    <Stack>
-      <Stack.Screen name="log-in" options={{ headerShown: false }} />
-    </Stack>
+    <UserProvider>
+      <Stack>
+        <Stack.Screen name="log-in" options={{ headerShown: false }} />
+        <Stack.Screen name="sign-up" options={{ headerShown: false }} />
+      </Stack>
+    </UserProvider>
   );
 };
 
-export default Layout;
+export default AuthLayout;

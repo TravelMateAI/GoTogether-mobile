@@ -1,10 +1,18 @@
+import LocationsScreen from "@/components/home/locations-screen";
 import React from "react";
-import { Text, View } from "react-native";
 
-export default function TopPicksScreen() {
+const TopPicksScreen = ({ images }: { images: any[] }) => {
   return (
-    <View className="mt-5">
-      <Text className="text-3xl font-bold">This is the Top Picks Screen</Text>
-    </View>
+    <LocationsScreen
+      title="Top Picks"
+      subtitle="Discover the most popular destinations near you"
+      categories={["restaurant"]}
+      radius={5000000}
+      maxResults={20}
+      images={images}
+      screenType="grid"
+    />
   );
-}
+};
+
+export default TopPicksScreen;
