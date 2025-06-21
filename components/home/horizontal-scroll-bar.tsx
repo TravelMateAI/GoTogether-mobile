@@ -1,4 +1,5 @@
 import { LocationDetail } from "@/types/location-types";
+import { useRouter } from "expo-router";
 import React from "react";
 import {
   ActivityIndicator,
@@ -29,10 +30,14 @@ const HorizontalScrollBar: React.FC<HorizontalScrollBarProps> = ({
   handleNavigation,
   images,
 }) => {
+  const router = useRouter();
+  // Function to handle location card press
   const handleLocationPress = (item: LocationDetail) => {
-    // Handle navigation to location details screen
     console.log("Selected location:", item.name, "Place ID:", item.place_id);
-    // Navigate to details screen or perform other actions
+    router.push({
+      pathname: "/location-details/[placeId]",
+      params: { placeId: item.place_id },
+    });
   };
 
   return (
