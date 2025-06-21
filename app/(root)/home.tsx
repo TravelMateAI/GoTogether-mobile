@@ -17,15 +17,15 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ROUTES } from "./routes";
 
-export default function HomeScreen() {
-  const getCurrentLatLng = async () => {
-    const { coords } = await Location.getCurrentPositionAsync({});
-    return {
-      lat: coords.latitude,
-      lng: coords.longitude,
-    };
+export const getCurrentLatLng = async () => {
+  const { coords } = await Location.getCurrentPositionAsync({});
+  return {
+    lat: coords.latitude,
+    lng: coords.longitude,
   };
+};
 
+export default function HomeScreen() {
   const [topPicks, setTopPicks] = useState<LocationDetail[]>([]);
   const [entertainment, setEntertainment] = useState<LocationDetail[]>([]);
   const [culture, setCulture] = useState<LocationDetail[]>([]);
@@ -45,7 +45,7 @@ export default function HomeScreen() {
           ["restaurant"],
           BASE_URL_API
         );
-        setTopPicks(response.slice(0, 10));
+        setTopPicks(response);
       } catch (error) {
         console.error("Error fetching top picks:", error);
       } finally {
@@ -66,7 +66,7 @@ export default function HomeScreen() {
           ["cinema"],
           BASE_URL_API
         );
-        setEntertainment(response.slice(0, 10));
+        setEntertainment(response);
       } catch (error) {
         console.error("Error fetching entertainment:", error);
       } finally {
@@ -87,7 +87,7 @@ export default function HomeScreen() {
           ["museum"],
           BASE_URL_API
         );
-        setCulture(response.slice(0, 10));
+        setCulture(response);
       } catch (error) {
         console.error("Error fetching culture:", error);
       } finally {
