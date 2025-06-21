@@ -53,7 +53,7 @@ const HorizontalScrollBar: React.FC<HorizontalScrollBarProps> = ({
         <ActivityIndicator size="large" color="#6366F1" className="my-4" />
       ) : (
         <FlatList
-          data={cardData}
+          data={cardData.slice(0, 10)}
           horizontal
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => item.place_id}
