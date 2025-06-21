@@ -36,12 +36,18 @@ const LocationCard: React.FC<LocationCardProps> = ({
     return "w-full h-48"; // Grid style - full width with responsive height
   };
 
+  const handlePress = () => {
+    if (onPress) {
+      onPress(item);
+    }
+  };
+
   return (
     <TouchableOpacity
       className={`${getCardDimensions()} ${
         cardStyle === "horizontal" ? "mr-4" : "mb-4"
       } rounded-2xl overflow-hidden shadow-lg`}
-      onPress={() => onPress?.(item)}
+      onPress={handlePress}
       activeOpacity={0.8}
     >
       <ImageBackground

@@ -136,6 +136,7 @@ export const getPlaceDetailsByIdAction = async (
   error?: string;
   status?: string;
 }> => {
+  console.log(`Fetching details for place ID: ${placeId}`);
   if (!placeId || placeId.trim() === "") {
     return {
       success: false,

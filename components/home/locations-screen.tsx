@@ -2,6 +2,7 @@ import { getCurrentLatLng } from "@/app/(root)/home";
 import { BASE_URL_API } from "@/config";
 import { getHiddenLocations } from "@/services/location-service";
 import { LocationCategory, LocationDetail } from "@/types/location-types";
+import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -75,9 +76,14 @@ const LocationsScreen: React.FC<LocationsScreenProps> = ({
     await fetchLocations();
   };
 
+  const router = useRouter();
+  // Function to handle location card press
   const handleLocationPress = (item: LocationDetail) => {
     console.log("Selected location:", item.name, "Place ID:", item.place_id);
-    // Handle navigation to location details screen
+    router.push({
+      pathname: "/location-details/[placeId]",
+      params: { placeId: item.place_id },
+    });
   };
 
   const renderLocationCard = ({
