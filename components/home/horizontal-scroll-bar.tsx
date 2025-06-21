@@ -1,13 +1,14 @@
 import { LocationDetail } from "@/types/location-types";
+import { useRouter } from "expo-router";
 import React from "react";
 import {
   ActivityIndicator,
   FlatList,
-  ImageBackground,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import LocationCard from "./location-card";
 
 interface ScrollButton {
   route: string;
@@ -19,7 +20,7 @@ interface HorizontalScrollBarProps {
   cardData: LocationDetail[];
   scrollButton: ScrollButton;
   handleNavigation: (route: string) => void;
-  images: any[];
+  images: any[]; // Fallback images array
 }
 
 const HorizontalScrollBar: React.FC<HorizontalScrollBarProps> = ({
@@ -29,35 +30,45 @@ const HorizontalScrollBar: React.FC<HorizontalScrollBarProps> = ({
   handleNavigation,
   images,
 }) => {
+  const router = useRouter();
+  // Function to handle location card press
+  const handleLocationPress = (item: LocationDetail) => {
+    console.log("Selected location:", item.name, "Place ID:", item.place_id);
+    router.push({
+      pathname: "/location-details/[placeId]",
+      params: { placeId: item.place_id },
+    });
+  };
+
   return (
     <View className="mb-6">
-      <View className="flex-row justify-between items-center mb-2">
-        <Text className="text-xl font-bold">{title}</Text>
+      <View className="flex-row justify-between items-center mb-4 px-4">
+        <Text className="text-xl font-bold text-gray-900">{title}</Text>
         <TouchableOpacity onPress={() => handleNavigation(scrollButton.route)}>
-          <Text className="text-indigo-600">See all</Text>
+          <Text className="text-indigo-600 font-medium">See all</Text>
         </TouchableOpacity>
       </View>
+
       {scrollButton.loading ? (
-        <ActivityIndicator size="large" color="#6366F1" className="my-4" />
+        <View className="items-center py-8">
+          <ActivityIndicator size="large" color="#6366F1" />
+          <Text className="text-gray-500 mt-2">Loading...</Text>
+        </View>
       ) : (
         <FlatList
-          data={cardData}
+          data={cardData.slice(0, 10)}
           horizontal
           showsHorizontalScrollIndicator={false}
-          keyExtractor={(item) =>
-            `${item.name}-${item.location.lat}-${item.location.lng}`
-          }
+          keyExtractor={(item) => item.place_id}
+          contentContainerStyle={{ paddingHorizontal: 16 }}
           renderItem={({ item, index }) => (
-            <ImageBackground
-              source={images[index % images.length]}
-              className="w-48 h-32 mr-4 justify-center items-center rounded-2xl overflow-hidden"
-              imageStyle={{ borderRadius: 16 }}
-            >
-              <View className="absolute inset-0 bg-black/35" />
-              <Text className="absolute bottom-2 left-2 text-white text-sm font-semibold">
-                {item.name}
-              </Text>
-            </ImageBackground>
+            <LocationCard
+              item={item}
+              index={index}
+              images={images}
+              onPress={handleLocationPress}
+              cardStyle="horizontal"
+            />
           )}
         />
       )}

@@ -48,6 +48,10 @@ export default function HomeLayout() {
         <Stack.Screen name="nearby" options={{ title: "Explore Nearby" }} />
         <Stack.Screen name="stay" options={{ title: "Book Stay" }} />
         <Stack.Screen name="top-picks" options={{ title: "Top Picks" }} />
+        <Stack.Screen
+          name="location-details/[placeId]"
+          options={{ title: "Location Details" }}
+        />
       </Stack>
     </SafeAreaView>
   );
