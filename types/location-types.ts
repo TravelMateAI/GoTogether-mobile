@@ -104,4 +104,5 @@ export type LocationCategory =
   | "fountain"
   | "stage"
   | "museum"
-  | "social_centre";
+  | "social_centre"
+  | "movie_theater";

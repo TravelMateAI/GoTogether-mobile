@@ -56,12 +56,14 @@ export const getHiddenLocations = async (
   apiBaseUrl: string = BASE_URL_API
 ): Promise<LocationDetail[]> => {
   try {
-    // Convert types array to a query string for Google Places API
+    console.log(`Making request to: ${BASE_URL_API}`);
+    console.log(`Full URL: ${BASE_URL_API}/maps/places?query=...`);
+    console.log(`Location: ${location}`);
+    console.log(`Radius: ${radius} meters`);
+
     const googlePlacesTypes = mapToGooglePlacesTypes(types);
     const query = googlePlacesTypes.join(" OR ");
 
-    // Use the same endpoint structure as your web app
-    // Assuming you have a search endpoint similar to location-data
     const response = await apiClient
       .get(
         `maps/places?query=${encodeURIComponent(
@@ -106,6 +108,21 @@ export const getHiddenLocations = async (
     }
   } catch (error) {
     console.error("Location Service Error:", error);
+    if (
+      error &&
+      typeof error === "object" &&
+      "message" in error &&
+      "stack" in error &&
+      "name" in error
+    ) {
+      console.error("Error details:", {
+        message: (error as Error).message,
+        stack: (error as Error).stack,
+        name: (error as Error).name,
+      });
+    } else {
+      console.error("Error details:", error);
+    }
     throw error;
   }
 };

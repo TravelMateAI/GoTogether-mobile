@@ -41,7 +41,7 @@ export default function HomeScreen() {
 
         const response = await getHiddenLocations(
           `${lat},${lng}`,
-          50000,
+          5000000,
           ["restaurant"],
           BASE_URL_API
         );
@@ -62,7 +62,7 @@ export default function HomeScreen() {
 
         const response = await getHiddenLocations(
           `${lat},${lng}`,
-          100000,
+          5000000,
           ["cinema"],
           BASE_URL_API
         );
@@ -83,7 +83,7 @@ export default function HomeScreen() {
 
         const response = await getHiddenLocations(
           `${lat},${lng}`,
-          20000,
+          5000000,
           ["museum"],
           BASE_URL_API
         );
