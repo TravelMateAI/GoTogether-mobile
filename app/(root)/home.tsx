@@ -15,6 +15,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useUser } from "../(auth)/user-context";
 import { ROUTES } from "./routes";
 
 export const getCurrentLatLng = async () => {
@@ -26,6 +27,7 @@ export const getCurrentLatLng = async () => {
 };
 
 export default function HomeScreen() {
+  const { user, isLoading } = useUser();
   const [topPicks, setTopPicks] = useState<LocationDetail[]>([]);
   const [entertainment, setEntertainment] = useState<LocationDetail[]>([]);
   const [culture, setCulture] = useState<LocationDetail[]>([]);
@@ -34,6 +36,7 @@ export default function HomeScreen() {
   const [loadingEntertainment, setLoadingEntertainment] = useState(true);
   const [loadingCulture, setLoadingCulture] = useState(true);
 
+  console.log("User in HomeScreen:", user);
   useEffect(() => {
     const fetchTopPicks = async () => {
       try {
@@ -221,17 +224,23 @@ export default function HomeScreen() {
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView className="px-5">
         {/* Greeting section */}
-        <View className="flex-row justify-between items-center mt-4 mb-4">
-          <View>
-            <Text className="text-2xl font-bold text-indigo-700">
-              Hello, Lishan!
-            </Text>
-            <Text className="text-gray-500">Where are you headed today?</Text>
+        {!isLoading && (
+          <View className="flex-row justify-between items-center mt-4 mb-4">
+            <View>
+              <Text className="text-2xl font-bold text-indigo-700">
+                Hello, {user ? user.firstName : "Traveler"}!
+              </Text>
+              <Text className="text-gray-500">Where are you headed today?</Text>
+            </View>
+            <View className="bg-indigo-500 w-10 h-10 rounded-full justify-center items-center">
+              <Text className="text-white font-bold">
+                {(
+                  (user && user.firstName ? user.firstName : "T")[0] || "T"
+                ).toUpperCase()}
+              </Text>
+            </View>
           </View>
-          <View className="bg-indigo-500 w-10 h-10 rounded-full justify-center items-center">
-            <Text className="text-white font-bold">L</Text>
-          </View>
-        </View>
+        )}
 
         {/* Search Bar */}
         <View className="flex-row items-center bg-gray-100 rounded-xl px-4 py-2 mb-4 mt-4">
