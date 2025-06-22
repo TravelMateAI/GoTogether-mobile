@@ -1,10 +1,13 @@
 import { BASE_URL_SM } from "@/config";
+import { LinearGradient } from "expo-linear-gradient";
 import { Link, useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
   Alert,
+  Image,
   SafeAreaView,
   ScrollView,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -115,16 +118,18 @@ export default function SignupScreen() {
         contentContainerStyle={{
           flexGrow: 1,
           justifyContent: "center",
-          padding: 20,
+          paddingHorizontal: 5,
+          paddingVertical: 50,
         }}
       >
         <View className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 mx-4 shadow-2xl">
           <Text className="text-4xl font-bold text-center mb-2 text-gray-800">
             Create Account
           </Text>
-          <Text className="text-lg text-center mb-8 text-gray-600">
-            Sign up to get started
-          </Text>
+          <Image
+            source={require("@/assets/images/logo.jpg")}
+            style={styles.logo}
+          />
 
           <View className="flex-row justify-between mb-6">
             <View className="flex-1 mr-3">
@@ -216,19 +221,26 @@ export default function SignupScreen() {
             />
           </View>
 
-          <TouchableOpacity
-            className={`rounded-2xl py-4 px-6 mb-6 shadow-lg ${
-              loading
-                ? "bg-gray-400"
-                : "bg-gradient-to-r from-green-500 to-blue-500"
-            }`}
-            onPress={handleSignup}
-            disabled={loading}
-          >
-            <Text className="text-white text-xl font-bold text-center">
-              {loading ? "Creating Account..." : "Create Account"}
-            </Text>
-          </TouchableOpacity>
+          {loading ? (
+            <TouchableOpacity
+              style={[styles.button, styles.disabledButton]}
+              onPress={handleSignup}
+              disabled={true}
+            >
+              <Text style={styles.buttonText}>Creating Account...</Text>
+            </TouchableOpacity>
+          ) : (
+            <LinearGradient
+              colors={["#22c55e", "#3b82f6"]} // from green-500 to blue-500
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={styles.gradientButton}
+            >
+              <TouchableOpacity style={styles.button} onPress={handleSignup}>
+                <Text style={styles.buttonText}>Create Account</Text>
+              </TouchableOpacity>
+            </LinearGradient>
+          )}
 
           <View className="flex-row justify-center items-center">
             <Text className="text-lg text-gray-600">
@@ -243,3 +255,37 @@ export default function SignupScreen() {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  logo: {
+    width: 180,
+    height: 180,
+    resizeMode: "contain",
+    alignSelf: "center",
+    marginBottom: 16,
+  },
+  gradientButton: {
+    borderRadius: 16,
+    marginBottom: 24,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 6,
+  },
+  button: {
+    paddingVertical: 16, // py-4
+    paddingHorizontal: 24, // px-6
+    borderRadius: 16, // rounded-2xl
+    alignItems: "center",
+  },
+  disabledButton: {
+    backgroundColor: "#9CA3AF", // Tailwind gray-400
+  },
+  buttonText: {
+    color: "#ffffff",
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+});
