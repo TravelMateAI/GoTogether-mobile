@@ -72,13 +72,14 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="settings"
+        name="profile"
         options={{
-          title: "Settings",
+          title: "Profile",
           tabBarIcon: ({ focused }) => (
             <GradientIcon
-              name={focused ? "gearshape.fill" : "gearshape"}
+              name={focused ? "profile.fill" : "profile"}
               focused={focused}
+              size={27}
             />
           ),
         }}
