@@ -222,7 +222,10 @@ const TransportScreen: React.FC = () => {
         animationIn="slideInUp"
         animationOut="slideOutDown"
       >
-        <View className="bg-white rounded-t-3xl p-6 max-h-192">
+        <View
+          className="bg-white rounded-t-3xl p-6"
+          style={{ maxHeight: "80%" }}
+        >
           <View className="flex-row justify-between items-center mb-4">
             <Text className="text-xl font-bold text-gray-900">
               Trip Details
@@ -342,12 +345,30 @@ const TransportScreen: React.FC = () => {
               <Pressable
                 onPress={() => {
                   closeModal();
-                  // You can add booking logic here
+                  // Open specific transport mode in Google Maps
+                  const travelMode =
+                    selectedOption.type === "Train"
+                      ? "transit"
+                      : selectedOption.type === "Bus"
+                      ? "transit"
+                      : selectedOption.type === "Taxi"
+                      ? "driving"
+                      : "transit"; // Tuk Tuk defaults to transit
+
+                  const url = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(
+                    from
+                  )}&destination=${encodeURIComponent(
+                    to
+                  )}&travelmode=${travelMode}`;
+
+                  Linking.openURL(url).catch((err) =>
+                    console.error("Failed to open map URL", err)
+                  );
                 }}
                 className="bg-indigo-500 py-4 rounded-2xl items-center"
               >
                 <Text className="text-white font-semibold text-lg">
-                  Book This Trip
+                  More Details
                 </Text>
               </Pressable>
             </ScrollView>
