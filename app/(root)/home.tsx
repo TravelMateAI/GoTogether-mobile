@@ -325,8 +325,8 @@ export default function HomeScreen() {
           <View className="flex-row justify-between items-center mt-4 mb-4">
             <View>
               <Text
-                className="font-bold text-indigo-700"
-                style={{ fontSize: 24 }}
+                className="font-bold text-indigo-600"
+                style={{ fontSize: 25 }}
               >
                 Hello, {user ? user.firstName : "Traveler"}!
               </Text>
