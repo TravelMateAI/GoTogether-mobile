@@ -9,8 +9,7 @@ import {
   TextInput,
   View,
 } from "react-native";
-
-const GOOGLE_API_KEY = "AIzaSyBqQhDKu98x-nZO85f-JVoUGgNUw2W_SWE"; // TODO: Replace with env var
+import { GOOGLE_API_KEY } from "../../keys"; // Adjust the import path as necessary
 
 type TransportMode = "Train" | "Bus" | "Taxi" | "Tuk Tuk";
 
