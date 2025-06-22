@@ -95,7 +95,13 @@ export default function LoginScreen() {
       style={{ flex: 1 }} // 🛠️ Must be full height
     >
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+        contentContainerStyle={{
+          flexGrow: 1,
+          justifyContent: "center",
+          paddingTop: 50,
+          paddingBottom: 20,
+          paddingHorizontal: 5,
+        }}
         keyboardShouldPersistTaps="handled"
       >
         <View className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 mx-4 shadow-2xl">
@@ -125,7 +131,7 @@ export default function LoginScreen() {
             />
           </View>
 
-          <View className="mb-8">
+          <View style={{ marginBottom: 36 }}>
             <Text className="text-lg font-semibold mb-3 text-gray-700">
               Password
             </Text>
