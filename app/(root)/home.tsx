@@ -7,7 +7,10 @@ import * as Location from "expo-location";
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
+  Alert,
   Linking,
+  Modal,
+  Pressable,
   ScrollView,
   Text,
   TextInput,
@@ -15,6 +18,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useUser } from "../(auth)/user-context";
 import { ROUTES } from "./routes";
 
 export const getCurrentLatLng = async () => {
@@ -26,19 +30,53 @@ export const getCurrentLatLng = async () => {
 };
 
 export default function HomeScreen() {
+  const { user, logout, isLoading } = useUser();
   const [topPicks, setTopPicks] = useState<LocationDetail[]>([]);
   const [entertainment, setEntertainment] = useState<LocationDetail[]>([]);
   const [culture, setCulture] = useState<LocationDetail[]>([]);
+  const [isProfileModalVisible, setIsProfileModalVisible] = useState(false);
 
   const [loadingTopPicks, setLoadingTopPicks] = useState(true);
   const [loadingEntertainment, setLoadingEntertainment] = useState(true);
   const [loadingCulture, setLoadingCulture] = useState(true);
 
+  const router = useRouter();
+
+  console.log("User in HomeScreen:", user);
+
+  // Logout handler
+  const handleLogout = async () => {
+    Alert.alert("Logout", "Are you sure you want to logout?", [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "Logout",
+        style: "destructive",
+        onPress: async () => {
+          try {
+            setIsProfileModalVisible(false);
+            await logout();
+            router.replace("/(auth)/log-in");
+          } catch (error) {
+            Alert.alert("Error", "Failed to logout. Please try again.");
+          }
+        },
+      },
+    ]);
+  };
+
+  const handleProfileNavigation = () => {
+    setIsProfileModalVisible(false);
+    // Replace with your actual profile route
+    router.push("/(root)/profile");
+  };
+
   useEffect(() => {
     const fetchTopPicks = async () => {
       try {
         const { lat, lng } = await getCurrentLatLng();
-
         const response = await getHiddenLocations(
           `${lat},${lng}`,
           5000000,
@@ -59,7 +97,6 @@ export default function HomeScreen() {
     const fetchEntertainment = async () => {
       try {
         const { lat, lng } = await getCurrentLatLng();
-
         const response = await getHiddenLocations(
           `${lat},${lng}`,
           5000000,
@@ -80,7 +117,6 @@ export default function HomeScreen() {
     const fetchCulture = async () => {
       try {
         const { lat, lng } = await getCurrentLatLng();
-
         const response = await getHiddenLocations(
           `${lat},${lng}`,
           5000000,
@@ -211,8 +247,6 @@ export default function HomeScreen() {
     },
   ];
 
-  const router = useRouter();
-
   const handleNavigation = (routeKey: keyof typeof ROUTES) => {
     router.push(ROUTES[routeKey]);
   };
@@ -221,17 +255,27 @@ export default function HomeScreen() {
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView className="px-5">
         {/* Greeting section */}
-        <View className="flex-row justify-between items-center mt-4 mb-4">
-          <View>
-            <Text className="text-2xl font-bold text-indigo-700">
-              Hello, Lishan!
-            </Text>
-            <Text className="text-gray-500">Where are you headed today?</Text>
+        {!isLoading && (
+          <View className="flex-row justify-between items-center mt-4 mb-4">
+            <View>
+              <Text className="text-2xl font-bold text-indigo-700">
+                Hello, {user ? user.firstName : "Traveler"}!
+              </Text>
+              <Text className="text-gray-500">Where are you headed today?</Text>
+            </View>
+
+            {/* User Avatar with Profile Modal */}
+            <TouchableOpacity onPress={() => setIsProfileModalVisible(true)}>
+              <View className="bg-indigo-500 w-10 h-10 rounded-full justify-center items-center">
+                <Text className="text-white font-bold">
+                  {(
+                    (user && user.firstName ? user.firstName : "T")[0] || "T"
+                  ).toUpperCase()}
+                </Text>
+              </View>
+            </TouchableOpacity>
           </View>
-          <View className="bg-indigo-500 w-10 h-10 rounded-full justify-center items-center">
-            <Text className="text-white font-bold">L</Text>
-          </View>
-        </View>
+        )}
 
         {/* Search Bar */}
         <View className="flex-row items-center bg-gray-100 rounded-xl px-4 py-2 mb-4 mt-4">
@@ -274,6 +318,74 @@ export default function HomeScreen() {
           ))}
         </View>
       </ScrollView>
+
+      {/* Profile Modal */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={isProfileModalVisible}
+        onRequestClose={() => setIsProfileModalVisible(false)}
+      >
+        <Pressable
+          className="flex-1 bg-black/50 justify-start"
+          onPress={() => setIsProfileModalVisible(false)}
+        >
+          {/* Modal Content - Positioned at top right */}
+          <View
+            className="absolute bg-white rounded-xl shadow-lg"
+            style={{ top: 66, right: 12, minWidth: 170 }} // 18 * 4 = 72px
+          >
+            {/* User Info Section */}
+            <View className="p-4 border-b border-gray-100">
+              <View className="flex-row items-center mb-2">
+                <View className="bg-indigo-500 w-12 h-12 rounded-full justify-center items-center mr-3">
+                  <Text className="text-white font-bold text-lg">
+                    {(
+                      (user && user.firstName ? user.firstName : "T")[0] || "T"
+                    ).toUpperCase()}
+                  </Text>
+                </View>
+                <View className="flex-1">
+                  <Text className="text-gray-900 font-semibold text-base">
+                    {user
+                      ? `${user.firstName || ""} ${
+                          user.lastName || ""
+                        }`.trim() || "Traveler"
+                      : "Traveler"}
+                  </Text>
+                  {user?.email && (
+                    <Text className="text-gray-500 text-sm">{user.email}</Text>
+                  )}
+                </View>
+              </View>
+            </View>
+
+            {/* Action Buttons */}
+            <View className="py-2">
+              {/* Profile Button */}
+              <TouchableOpacity
+                onPress={handleProfileNavigation}
+                className="flex-row items-center px-4 py-3 active:bg-gray-50"
+              >
+                <Ionicons name="person-outline" size={20} color="#6366f1" />
+                <Text className="ml-3 text-gray-900 font-medium">
+                  View Profile
+                </Text>
+                <Ionicons name="chevron-forward" size={16} color="#9ca3af" />
+              </TouchableOpacity>
+
+              {/* Logout Button */}
+              <TouchableOpacity
+                onPress={handleLogout}
+                className="flex-row items-center px-4 py-3 active:bg-red-50"
+              >
+                <Ionicons name="log-out-outline" size={20} color="#ef4444" />
+                <Text className="ml-3 text-red-600 font-medium">Logout</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Pressable>
+      </Modal>
     </SafeAreaView>
   );
 }
