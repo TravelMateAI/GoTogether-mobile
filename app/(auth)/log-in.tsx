@@ -15,7 +15,7 @@ export default function LoginScreen() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const { setUser } = useUser();
+  const { setUser, setAccessToken } = useUser();
   const router = useRouter();
 
   const handleLogin = async () => {
@@ -38,19 +38,35 @@ export default function LoginScreen() {
       });
 
       const data = await response.json();
+      console.log("Login response:", data);
 
       if (response.ok) {
-        // Parse the user data from the response
+        // Decode the base64 encoded user data
+        let decodedUser;
+        try {
+          const base64User = data.user;
+          const decodedString = atob(base64User); // Decode base64
+          decodedUser = JSON.parse(decodedString); // Parse JSON
+          console.log("Decoded user:", decodedUser);
+        } catch (decodeError) {
+          console.error("Error decoding user data:", decodeError);
+          Alert.alert("Error", "Invalid user data received");
+          return;
+        }
+
         const userData = {
-          id: data.user.userId || data.user.id,
-          name: data.user.firstName || data.user.username,
-          email: data.user.email || username,
+          id: decodedUser.userId || decodedUser.id,
+          name: decodedUser.firstName || decodedUser.username,
+          email: decodedUser.email || username,
+          username: decodedUser.username,
+          firstName: decodedUser.firstName,
+          lastName: decodedUser.lastName,
+          avatarUrl: decodedUser.avatarUrl,
         };
 
-        setUser(userData);
-
-        // Store token if needed for future requests
-        // You might want to use AsyncStorage here
+        await setUser(userData);
+        console.log("User set in context:", userData);
+        await setAccessToken(data.accessToken); // Note: use accessToken, not token
 
         Alert.alert("Success", "Login successful!", [
           {

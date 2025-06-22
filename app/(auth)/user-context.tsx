@@ -33,6 +33,15 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [accessToken, setAccessTokenState] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Add debugging
+  useEffect(() => {
+    console.log("UserProvider - user state changed:", user);
+  }, [user]);
+
+  useEffect(() => {
+    console.log("UserProvider - isLoading changed:", isLoading);
+  }, [isLoading]);
+
   // Load user data and token from storage on app start
   useEffect(() => {
     loadUserFromStorage();
@@ -40,10 +49,14 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   const loadUserFromStorage = async () => {
     try {
+      console.log("Loading user from storage...");
       const [storedUser, storedToken] = await Promise.all([
         StorageService.getUserData(),
         StorageService.getAccessToken(),
       ]);
+
+      console.log("Stored user:", storedUser);
+      console.log("Stored token:", storedToken);
 
       if (storedUser) {
         setUserState(storedUser);
@@ -54,20 +67,28 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     } catch (error) {
       console.error("Failed to load user from storage:", error);
     } finally {
+      console.log("Setting isLoading to false");
       setIsLoading(false);
     }
   };
 
   const setUser = async (userData: User | null) => {
+    console.log("setUser called with:", userData);
     setUserState(userData);
     if (userData) {
+      console.log("Saving user to storage...");
       await StorageService.setUserData(userData);
+      console.log("User saved to storage");
     } else {
       await StorageService.clearAuthData();
     }
   };
 
   const setAccessToken = async (token: string | null) => {
+    console.log(
+      "setAccessToken called with:",
+      token ? "token present" : "null"
+    );
     setAccessTokenState(token);
     if (token) {
       await StorageService.setAccessToken(token);
