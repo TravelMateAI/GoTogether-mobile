@@ -1,41 +1,42 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { SymbolWeight } from 'expo-symbols';
-import { OpaqueColorValue, StyleProp, TextStyle } from 'react-native';
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { SymbolWeight } from "expo-symbols";
+import { OpaqueColorValue, StyleProp, TextStyle } from "react-native";
 
 // Mapping SF Symbols to Ionicons equivalents
 const MAPPING = {
-  'house.fill': 'home',
-  'house': 'home-outline',
+  "house.fill": "home",
+  house: "home-outline",
 
-  'doc.plaintext': 'document-text',
-  'doc': 'document-text-outline',
+  "doc.plaintext": "document-text",
+  doc: "document-text-outline",
 
-  'map.fill': 'map',
-  'map': 'map-outline',
+  "map.fill": "map",
+  map: "map-outline",
 
-  'gearshape.fill': 'settings',
-  'gearshape': 'settings-outline',
+  "gearshape.fill": "settings",
+  gearshape: "settings-outline",
 
-  'globe.fill': 'globe',
-  'globe': 'globe-outline',
+  "profile.fill": "person",
+  profile: "person-outline",
 
-  'triangle.fill': 'warning',
-  'triangle': 'warning-outline',
+  "globe.fill": "globe",
+  globe: "globe-outline",
 
-  'people': 'people-outline',
-  'people.fill': 'people',
+  "triangle.fill": "warning",
+  triangle: "warning-outline",
 
-  'cross.case': 'medkit-outline',
-  'cross.case.fill': 'medkit',
+  people: "people-outline",
+  "people.fill": "people",
 
-  'phone': 'call-outline',
-  'phone.fill': 'call',
+  "cross.case": "medkit-outline",
+  "cross.case.fill": "medkit",
 
-  'envelope': 'mail-outline',
-  'envelope.fill': 'mail',
+  phone: "call-outline",
+  "phone.fill": "call",
 
+  envelope: "mail-outline",
+  "envelope.fill": "mail",
 } as const;
-
 
 type IconSymbolName = keyof typeof MAPPING;
 type IoniconName = (typeof MAPPING)[IconSymbolName];
@@ -52,12 +53,7 @@ export interface IconSymbolProps {
  * IconSymbol - Cross-platform icon component mapping SF Symbols to Ionicons.
  * Uses Ionicons on all platforms for consistency.
  */
-export function IconSymbol({
-  name,
-  size = 24,
-  color,
-  style,
-}: IconSymbolProps) {
+export function IconSymbol({ name, size = 24, color, style }: IconSymbolProps) {
   const iconName = MAPPING[name];
 
   if (!iconName) {
@@ -65,5 +61,12 @@ export function IconSymbol({
     return null;
   }
 
-  return <Ionicons name={iconName as IoniconName} size={size} color={color} style={style} />;
+  return (
+    <Ionicons
+      name={iconName as IoniconName}
+      size={size}
+      color={color}
+      style={style}
+    />
+  );
 }
