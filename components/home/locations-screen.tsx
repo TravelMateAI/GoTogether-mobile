@@ -175,12 +175,12 @@ const LocationsScreen: React.FC<LocationsScreenProps> = ({
           />
         }
       >
-        <View className="px-4 py-6">
+        <View className="px-4 py-4">
           {/* Header */}
           <View className="mb-6">
-            <Text className="text-3xl font-bold text-gray-900 mb-2">
+            {/* <Text className="text-3xl font-bold text-gray-900 mb-2">
               {title}
-            </Text>
+            </Text> */}
             {subtitle && (
               <Text className="text-gray-600 text-base">{subtitle}</Text>
             )}

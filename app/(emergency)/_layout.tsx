@@ -2,6 +2,7 @@ import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { Stack } from "expo-router";
 import React from "react";
+import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeLayout() {
@@ -9,7 +10,7 @@ export default function HomeLayout() {
   const theme = Colors["light"];
 
   return (
-    <SafeAreaView
+    <View
       className="flex-1"
       style={{
         backgroundColor: theme.background,
@@ -54,6 +55,6 @@ export default function HomeLayout() {
           options={{ title: "Emergency Contacts" }}
         />
       </Stack>
-    </SafeAreaView>
+    </View>
   );
 }

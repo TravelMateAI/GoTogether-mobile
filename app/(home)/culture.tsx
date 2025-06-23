@@ -1,10 +1,18 @@
+import LocationsScreen from "@/components/home/locations-screen";
 import React from "react";
-import { Text, View } from "react-native";
 
-export default function EventsScreen() {
+const EventsScreen = ({ images }: { images: any[] }) => {
   return (
-    <View className="mt-5">
-      <Text className="text-3xl font-bold">This is the Culture Screen</Text>
-    </View>
+    <LocationsScreen
+      title="Top Picks"
+      subtitle="Discover the clutural heritage near you"
+      categories={["museum"]}
+      radius={5000000}
+      maxResults={20}
+      images={images}
+      screenType="grid"
+    />
   );
-}
+};
+
+export default EventsScreen;

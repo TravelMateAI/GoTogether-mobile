@@ -1,5 +1,6 @@
 import { BASE_URL_PLAN } from "@/config";
 import { GOOGLE_API_KEY } from "@/keys";
+import { Feather } from "@expo/vector-icons";
 import React, { useRef, useState } from "react";
 import {
   ActivityIndicator,
@@ -201,39 +202,39 @@ export default function PlannerScreen() {
   };
 
   return (
-    <ScrollView className="flex-1 bg-gray-100 dark:bg-slate-900">
+    <ScrollView className="flex-1 bg-white">
       <View className="p-4">
         {/* Header */}
-        <View className="mb-8 mt-5">
-          <Text className="text-4xl font-bold text-gray-800 dark:text-slate-100">
+        <View style={{ marginTop: 34, marginBottom: 20 }}>
+          <Text className="font-bold text-indigo-600" style={{ fontSize: 28 }}>
             Trip Planner
           </Text>
-          <Text className="text-lg text-gray-600 dark:text-slate-300">
-            Plan your next adventure here!
+          <Text className="text-gray-500 mt-1" style={{ fontSize: 14 }}>
+            Customize your perfect journey
           </Text>
         </View>
 
         {/* Input Form */}
         {!planning && (
-          <View className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-md space-y-4 mb-6">
+          <View className="bg-white p-6 rounded-2xl shadow-lg space-y-4 mb-6">
             <TextInput
               placeholder="Enter origin"
               value={origin}
               onChangeText={setOrigin}
-              className="w-full p-3 rounded border border-gray-300 dark:border-gray-600 dark:text-white"
+              className="w-full p-3 mb-4 rounded-lg border border-gray-300 text-gray-800"
               placeholderTextColor="#9CA3AF"
             />
             <TextInput
               placeholder="Enter destination"
               value={destination}
               onChangeText={setDestination}
-              className="w-full p-3 rounded border border-gray-300 dark:border-gray-600 dark:text-white"
+              className="w-full p-3 mb-4 rounded-lg border border-gray-300 text-gray-800"
               placeholderTextColor="#9CA3AF"
             />
             <TouchableOpacity
               onPress={handlePlan}
               disabled={loading}
-              className="px-6 py-3 bg-blue-600 rounded-lg items-center"
+              className="px-6 py-3 bg-indigo-500 rounded-2xl items-center"
             >
               {loading ? (
                 <ActivityIndicator color="white" />
@@ -252,11 +253,14 @@ export default function PlannerScreen() {
             {/* Back Button */}
             <TouchableOpacity
               onPress={resetPlanning}
-              className="bg-gray-500 px-4 py-2 rounded-lg self-start"
+              className="bg-gray-400 px-4 py-2 rounded-xl self-start mb-6"
             >
-              <Text className="text-white font-semibold">
-                ← Back to Planning
-              </Text>
+              <View className="flex-row items-center">
+                <Feather name="chevron-left" size={24} color="#FFFFFF" />
+                <Text className="text-white font-semibold ml-2">
+                  Back to Planning
+                </Text>
+              </View>
             </TouchableOpacity>
 
             {/* Map */}
@@ -292,11 +296,11 @@ export default function PlannerScreen() {
             </View>
 
             {/* Route Details */}
-            <View className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-md">
-              <Text className="text-xl font-semibold mb-4 text-gray-800 dark:text-slate-200">
+            <View className="bg-indigo-500 p-6 rounded-lg shadow-md mt-4 mb-4">
+              <Text className="text-xl font-semibold mb-4 text-white">
                 Route Details
               </Text>
-              <Text className="text-gray-600 dark:text-slate-300 mb-2">
+              <Text className="text-white mb-2">
                 From{" "}
                 <Text className="font-bold">
                   {routeData.routes[0].legs[0].startAddress}
@@ -313,8 +317,8 @@ export default function PlannerScreen() {
             </View>
 
             {/* Nearby Places */}
-            <View className="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-md">
-              <Text className="text-xl font-semibold mb-4 text-gray-800 dark:text-slate-200">
+            <View className="bg-white p-6 rounded-lg shadow-md">
+              <Text className="text-2xl font-semibold mb-4 text-slate-700">
                 Nearby Places
               </Text>
               <View className="space-y-4">
@@ -329,11 +333,10 @@ export default function PlannerScreen() {
                     <TouchableOpacity
                       key={place.placeId}
                       onPress={() => setSelectedPlaceId(place.placeId)}
-                      className={`border p-4 rounded-lg dark:border-slate-700 ${
-                        isSelected
-                          ? "border-blue-500 border-2"
-                          : "border-gray-300"
-                      }`}
+                      className={`p-4 rounded-lg mb-4 bg-slate-100`}
+                      style={{
+                        backgroundColor: "#c6d1f7",
+                      }}
                     >
                       {photoUrl && (
                         <Image
@@ -342,16 +345,17 @@ export default function PlannerScreen() {
                           resizeMode="cover"
                         />
                       )}
-                      <Text className="font-semibold text-gray-800 dark:text-slate-100 text-lg">
+                      <Text className="font-semibold text-gray-800 text-lg">
                         {place.name}
                       </Text>
-                      <Text className="text-sm text-gray-500 dark:text-slate-300 mb-1">
+                      <Text
+                        className="text-sm text-gray-400 mb-1"
+                        style={{ color: "#6B7280" }}
+                      >
                         {place.vicinity}
                       </Text>
                       {place.rating && (
-                        <Text className="text-yellow-600 dark:text-yellow-400">
-                          ⭐ {place.rating}
-                        </Text>
+                        <Text className="text-white">⭐ {place.rating}</Text>
                       )}
                     </TouchableOpacity>
                   );
@@ -362,11 +366,11 @@ export default function PlannerScreen() {
         )}
 
         {/* Footer */}
-        <View className="mt-12 items-center">
+        {/* <View className="mt-12 items-center">
           <Text className="text-sm text-gray-500 dark:text-slate-400">
             © {new Date().getFullYear()} GoTogether. All rights reserved.
           </Text>
-        </View>
+        </View> */}
       </View>
     </ScrollView>
   );
