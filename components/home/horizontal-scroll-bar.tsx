@@ -60,7 +60,6 @@ const HorizontalScrollBar: React.FC<HorizontalScrollBarProps> = ({
           horizontal
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => item.place_id}
-          contentContainerStyle={{ paddingHorizontal: 16 }}
           renderItem={({ item, index }) => (
             <LocationCard
               item={item}

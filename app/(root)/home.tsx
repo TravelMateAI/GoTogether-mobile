@@ -251,23 +251,93 @@ export default function HomeScreen() {
     router.push(ROUTES[routeKey]);
   };
 
+  // const [currentLocation, setCurrentLocation] = useState<string>("");
+  // const [weather, setWeather] = useState<any>(null);
+
+  // const fetchLocationAndWeather = async () => {
+  //   try {
+  //     const { lat, lng } = await getCurrentLatLng();
+
+  //     // Get location name (you might need to add reverse geocoding)
+  //     const locationResponse = await fetch(
+  //       `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=${GOOGLE_API_KEY}`
+  //     );
+  //     const locationData = await locationResponse.json();
+  //     console.log("Location Data:", locationData);
+  //     if (locationData.results[0]) {
+  //       setCurrentLocation(locationData.results[0].formatted);
+  //     }
+
+  //     // Get weather (you'll need to add weather API)
+  //     const weatherResponse = await fetch(
+  //       `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${GOOGLE_API_KEY}&units=metric`
+  //     );
+  //     const weatherData = await weatherResponse.json();
+  //     console.log("Weather Data:", weatherData);
+  //     setWeather(weatherData);
+  //   } catch (error) {
+  //     console.error("Error fetching location/weather:", error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchLocationAndWeather();
+  // }, []);
+
+  // const renderLocationWeatherWidget = () => (
+  //   <View className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl p-4 mb-4 mt-4">
+  //     <View className="flex-row justify-between items-center">
+  //       <View className="flex-1">
+  //         <Text className="text-white text-sm opacity-90">
+  //           Current Location
+  //         </Text>
+  //         <Text
+  //           className="text-white font-semibold text-base"
+  //           numberOfLines={1}
+  //         >
+  //           {currentLocation || "Getting location..."}
+  //         </Text>
+  //       </View>
+  //       {weather?.main?.temp !== undefined && weather.weather?.[0]?.main ? (
+  //         <View className="items-center">
+  //           <Text className="text-white text-2xl font-bold">
+  //             {Math.round(weather.main.temp)}°
+  //           </Text>
+  //           <Text className="text-white text-xs opacity-90">
+  //             {weather.weather[0].main}
+  //           </Text>
+  //         </View>
+  //       ) : (
+  //         <Text className="text-white text-xs opacity-50">
+  //           Loading weather...
+  //         </Text>
+  //       )}
+  //     </View>
+  //   </View>
+  // );
+
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <ScrollView className="px-5">
+      <ScrollView className="px-5" style={{ marginBottom: -38 }}>
         {/* Greeting section */}
         {!isLoading && (
           <View className="flex-row justify-between items-center mt-4 mb-4">
             <View>
-              <Text className="text-2xl font-bold text-indigo-700">
+              <Text
+                className="font-bold text-indigo-600"
+                style={{ fontSize: 25 }}
+              >
                 Hello, {user ? user.firstName : "Traveler"}!
               </Text>
-              <Text className="text-gray-500">Where are you headed today?</Text>
+              <Text className="text-gray-500" style={{ fontSize: 14 }}>
+                Where are you headed today?
+              </Text>
             </View>
 
             {/* User Avatar with Profile Modal */}
             <TouchableOpacity onPress={() => setIsProfileModalVisible(true)}>
-              <View className="bg-indigo-500 w-10 h-10 rounded-full justify-center items-center">
-                <Text className="text-white font-bold">
+              <View className="bg-indigo-500 w-12 h-12 rounded-full justify-center items-center">
+                <Text className="text-white font-bold" style={{ fontSize: 18 }}>
                   {(
                     (user && user.firstName ? user.firstName : "T")[0] || "T"
                   ).toUpperCase()}
@@ -286,6 +356,9 @@ export default function HomeScreen() {
           />
           <Ionicons name="mic" size={20} color="gray" />
         </View>
+
+        {/* Location and Weather Widget */}
+        {/* {renderLocationWeatherWidget()} */}
 
         {/* Feature Buttons Grid */}
         <View className="flex-row flex-wrap justify-between mt-5 mb-4 px-5">

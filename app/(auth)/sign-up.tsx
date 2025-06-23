@@ -1,10 +1,15 @@
 import { BASE_URL_SM } from "@/config";
+import { LinearGradient } from "expo-linear-gradient";
 import { Link, useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
   Alert,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
   SafeAreaView,
   ScrollView,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -110,136 +115,190 @@ export default function SignupScreen() {
   };
 
   return (
-    <SafeAreaView>
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          justifyContent: "center",
-          padding: 20,
-        }}
-      >
-        <View className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 mx-4 shadow-2xl">
-          <Text className="text-4xl font-bold text-center mb-2 text-gray-800">
-            Create Account
-          </Text>
-          <Text className="text-lg text-center mb-8 text-gray-600">
-            Sign up to get started
-          </Text>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
+    >
+      <SafeAreaView style={{ flex: 1 }}>
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: "center",
+            paddingHorizontal: 5,
+            paddingTop: 50,
+            paddingBottom: 50,
+          }}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 mx-4 shadow-2xl">
+            <Text className="text-4xl font-bold text-center mb-2 text-gray-800">
+              Create Account
+            </Text>
+            <Image
+              source={require("@/assets/images/logo.jpg")}
+              style={styles.logo}
+            />
 
-          <View className="flex-row justify-between mb-6">
-            <View className="flex-1 mr-3">
+            <View className="flex-row justify-between mb-6">
+              <View className="flex-1 mr-3">
+                <Text className="text-lg font-semibold mb-3 text-gray-700">
+                  First Name
+                </Text>
+                <TextInput
+                  className="border-2 border-gray-200 rounded-2xl px-4 py-4 text-lg bg-gray-50 focus:border-green-400 focus:bg-white"
+                  value={formData.firstName}
+                  onChangeText={(value) =>
+                    handleInputChange("firstName", value)
+                  }
+                  placeholder="First name"
+                  placeholderTextColor="#9CA3AF"
+                  autoCapitalize="words"
+                />
+              </View>
+              <View className="flex-1 ml-3">
+                <Text className="text-lg font-semibold mb-3 text-gray-700">
+                  Last Name
+                </Text>
+                <TextInput
+                  className="border-2 border-gray-200 rounded-2xl px-4 py-4 text-lg bg-gray-50 focus:border-green-400 focus:bg-white"
+                  value={formData.lastName}
+                  onChangeText={(value) => handleInputChange("lastName", value)}
+                  placeholder="Last name"
+                  placeholderTextColor="#9CA3AF"
+                  autoCapitalize="words"
+                />
+              </View>
+            </View>
+
+            <View className="mb-6">
               <Text className="text-lg font-semibold mb-3 text-gray-700">
-                First Name
+                Username
               </Text>
               <TextInput
                 className="border-2 border-gray-200 rounded-2xl px-4 py-4 text-lg bg-gray-50 focus:border-green-400 focus:bg-white"
-                value={formData.firstName}
-                onChangeText={(value) => handleInputChange("firstName", value)}
-                placeholder="First name"
+                value={formData.username}
+                onChangeText={(value) => handleInputChange("username", value)}
+                placeholder="Choose a username"
                 placeholderTextColor="#9CA3AF"
-                autoCapitalize="words"
+                autoCapitalize="none"
+                autoCorrect={false}
               />
             </View>
-            <View className="flex-1 ml-3">
+
+            <View className="mb-6">
               <Text className="text-lg font-semibold mb-3 text-gray-700">
-                Last Name
+                Email
               </Text>
               <TextInput
                 className="border-2 border-gray-200 rounded-2xl px-4 py-4 text-lg bg-gray-50 focus:border-green-400 focus:bg-white"
-                value={formData.lastName}
-                onChangeText={(value) => handleInputChange("lastName", value)}
-                placeholder="Last name"
+                value={formData.email}
+                onChangeText={(value) => handleInputChange("email", value)}
+                placeholder="Enter your email"
                 placeholderTextColor="#9CA3AF"
-                autoCapitalize="words"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoCorrect={false}
               />
             </View>
-          </View>
 
-          <View className="mb-6">
-            <Text className="text-lg font-semibold mb-3 text-gray-700">
-              Username
-            </Text>
-            <TextInput
-              className="border-2 border-gray-200 rounded-2xl px-4 py-4 text-lg bg-gray-50 focus:border-green-400 focus:bg-white"
-              value={formData.username}
-              onChangeText={(value) => handleInputChange("username", value)}
-              placeholder="Choose a username"
-              placeholderTextColor="#9CA3AF"
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
-          </View>
+            <View className="mb-6">
+              <Text className="text-lg font-semibold mb-3 text-gray-700">
+                Password
+              </Text>
+              <TextInput
+                className="border-2 border-gray-200 rounded-2xl px-4 py-4 text-lg bg-gray-50 focus:border-green-400 focus:bg-white"
+                value={formData.password}
+                onChangeText={(value) => handleInputChange("password", value)}
+                placeholder="Create a password"
+                placeholderTextColor="#9CA3AF"
+                secureTextEntry
+              />
+            </View>
 
-          <View className="mb-6">
-            <Text className="text-lg font-semibold mb-3 text-gray-700">
-              Email
-            </Text>
-            <TextInput
-              className="border-2 border-gray-200 rounded-2xl px-4 py-4 text-lg bg-gray-50 focus:border-green-400 focus:bg-white"
-              value={formData.email}
-              onChangeText={(value) => handleInputChange("email", value)}
-              placeholder="Enter your email"
-              placeholderTextColor="#9CA3AF"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
-          </View>
+            <View style={{ marginBottom: 36 }}>
+              <Text className="text-lg font-semibold mb-3 text-gray-700">
+                Confirm Password
+              </Text>
+              <TextInput
+                className="border-2 border-gray-200 rounded-2xl px-4 py-4 text-lg bg-gray-50 focus:border-green-400 focus:bg-white"
+                value={formData.confirmPassword}
+                onChangeText={(value) =>
+                  handleInputChange("confirmPassword", value)
+                }
+                placeholder="Confirm your password"
+                placeholderTextColor="#9CA3AF"
+                secureTextEntry
+              />
+            </View>
 
-          <View className="mb-6">
-            <Text className="text-lg font-semibold mb-3 text-gray-700">
-              Password
-            </Text>
-            <TextInput
-              className="border-2 border-gray-200 rounded-2xl px-4 py-4 text-lg bg-gray-50 focus:border-green-400 focus:bg-white"
-              value={formData.password}
-              onChangeText={(value) => handleInputChange("password", value)}
-              placeholder="Create a password"
-              placeholderTextColor="#9CA3AF"
-              secureTextEntry
-            />
-          </View>
+            {loading ? (
+              <TouchableOpacity
+                style={[styles.button, styles.disabledButton]}
+                onPress={handleSignup}
+                disabled={true}
+              >
+                <Text style={styles.buttonText}>Creating Account...</Text>
+              </TouchableOpacity>
+            ) : (
+              <LinearGradient
+                colors={["#22c55e", "#3b82f6"]} // from green-500 to blue-500
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.gradientButton}
+              >
+                <TouchableOpacity style={styles.button} onPress={handleSignup}>
+                  <Text style={styles.buttonText}>Create Account</Text>
+                </TouchableOpacity>
+              </LinearGradient>
+            )}
 
-          <View className="mb-8">
-            <Text className="text-lg font-semibold mb-3 text-gray-700">
-              Confirm Password
-            </Text>
-            <TextInput
-              className="border-2 border-gray-200 rounded-2xl px-4 py-4 text-lg bg-gray-50 focus:border-green-400 focus:bg-white"
-              value={formData.confirmPassword}
-              onChangeText={(value) =>
-                handleInputChange("confirmPassword", value)
-              }
-              placeholder="Confirm your password"
-              placeholderTextColor="#9CA3AF"
-              secureTextEntry
-            />
+            <View className="flex-row justify-center items-center">
+              <Text className="text-lg text-gray-600">
+                Already have an account?{" "}
+              </Text>
+              <Link href="/(auth)/log-in">
+                <Text className="text-lg text-green-600 font-bold">
+                  Sign In
+                </Text>
+              </Link>
+            </View>
           </View>
-
-          <TouchableOpacity
-            className={`rounded-2xl py-4 px-6 mb-6 shadow-lg ${
-              loading
-                ? "bg-gray-400"
-                : "bg-gradient-to-r from-green-500 to-blue-500"
-            }`}
-            onPress={handleSignup}
-            disabled={loading}
-          >
-            <Text className="text-white text-xl font-bold text-center">
-              {loading ? "Creating Account..." : "Create Account"}
-            </Text>
-          </TouchableOpacity>
-
-          <View className="flex-row justify-center items-center">
-            <Text className="text-lg text-gray-600">
-              Already have an account?{" "}
-            </Text>
-            <Link href="/(auth)/log-in">
-              <Text className="text-lg text-green-600 font-bold">Sign In</Text>
-            </Link>
-          </View>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+        </ScrollView>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 }
+
+const styles = StyleSheet.create({
+  logo: {
+    width: 180,
+    height: 180,
+    resizeMode: "contain",
+    alignSelf: "center",
+    marginBottom: 16,
+  },
+  gradientButton: {
+    borderRadius: 16,
+    marginBottom: 24,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 6,
+  },
+  button: {
+    paddingVertical: 16, // py-4
+    paddingHorizontal: 24, // px-6
+    borderRadius: 16, // rounded-2xl
+    alignItems: "center",
+  },
+  disabledButton: {
+    backgroundColor: "#9CA3AF", // Tailwind gray-400
+  },
+  buttonText: {
+    color: "#ffffff",
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+});

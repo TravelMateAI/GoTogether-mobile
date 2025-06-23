@@ -1,5 +1,6 @@
 import { getPlaceDetailsByIdAction } from "@/services/location-service";
 import { PlaceDetails } from "@/types/location-types";
+import { Feather } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
@@ -192,12 +193,12 @@ const LocationDetailsScreen = () => {
           />
 
           {/* Back Button */}
-          <TouchableOpacity
+          {/* <TouchableOpacity
             className="absolute top-4 left-4 bg-black/50 rounded-full p-2"
             onPress={router.back}
           >
             <Text className="text-white text-lg">←</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           {/* Photo Counter */}
           {photoCount > 1 && (
@@ -218,14 +219,13 @@ const LocationDetailsScreen = () => {
                 }
                 disabled={selectedPhotoIndex === 0}
               >
-                <Text
-                  className={`text-lg ${
-                    selectedPhotoIndex === 0 ? "text-gray-400" : "text-white"
-                  }`}
-                >
-                  ←
-                </Text>
+                <Feather
+                  name="chevron-left"
+                  size={24}
+                  color={selectedPhotoIndex === 0 ? "#9CA3AF" : "#FFFFFF"} // Tailwind gray-400 or white
+                />
               </TouchableOpacity>
+
               <TouchableOpacity
                 className="bg-black/50 rounded-full p-2"
                 onPress={() =>
@@ -235,15 +235,15 @@ const LocationDetailsScreen = () => {
                 }
                 disabled={selectedPhotoIndex === photoCount - 1}
               >
-                <Text
-                  className={`text-lg ${
+                <Feather
+                  name="chevron-right"
+                  size={24}
+                  color={
                     selectedPhotoIndex === photoCount - 1
-                      ? "text-gray-400"
-                      : "text-white"
-                  }`}
-                >
-                  →
-                </Text>
+                      ? "#9CA3AF"
+                      : "#FFFFFF"
+                  }
+                />
               </TouchableOpacity>
             </View>
           )}
